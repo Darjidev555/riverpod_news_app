@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-
 import '../constants/const.dart';
 import '../feature/home/viewmodel/hottestNews_provider.dart';
 import '../feature/home/viewmodel/likedNews_provider.dart';
-import '../model/newsmodel.dart';
 import 'commantextwidget.dart';
 import 'newsdetails.dart';
 
@@ -140,22 +137,31 @@ class Trandingcard extends ConsumerWidget {
                                 Spacer(),
                                 GestureDetector(
                                   onTap: () {
+                                    final uniqueKey =
+                                        "${hottestNewsState.hottestNewsList[index].title}-$index";
+
                                     ref
                                         .read(likedNewsProvider.notifier)
-                                        .toggleLike(hottestNewsState
-                                                .hottestNewsList[index].title ??
-                                            "");
+                                        .toggleLike(uniqueKey);
                                   },
-                                  child: Icon(
-                                    likedNews.contains(hottestNewsState
-                                            .hottestNewsList[index].title)
-                                        ? Icons.favorite
-                                        : Icons.favorite_border,
-                                    color: likedNews.contains(hottestNewsState
-                                            .hottestNewsList[index].title)
-                                        ? Colors.red
-                                        : Colors.white,
-                                    size: 30,
+                                  child: Consumer(
+                                    builder: (context, ref, child) {
+                                      final likedNews =
+                                          ref.watch(likedNewsProvider);
+                                      final uniqueKey =
+                                          "${hottestNewsState.hottestNewsList[index].title}-$index";
+                                      final isLiked = likedNews.contains(
+                                          uniqueKey); // Check using unique key
+
+                                      return Icon(
+                                        isLiked
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color:
+                                            isLiked ? Colors.red : Colors.white,
+                                        size: 30,
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
