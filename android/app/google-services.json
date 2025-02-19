@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "813165467013",
+    "project_id": "devv-43fbe",
+    "storage_bucket": "devv-43fbe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813165467013:android:a2b13e88f424981f1220ec",
+        "android_client_info": {
+          "package_name": "com.example.devwidget"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8zeOLjvnO0pu_jtrecj4pi9ZZULO4cCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
