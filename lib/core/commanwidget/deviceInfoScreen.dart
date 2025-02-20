@@ -1,3 +1,4 @@
+import 'package:devwidget/core/commanwidget/commantextwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -68,32 +69,50 @@ class _DeviceInfoScreenState extends State<DeviceInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Device & App Info")),
+      appBar: AppBar(
+          backgroundColor: Colors.black54,
+          title: const CommonTextWidget(
+            text: "Device & App Info",
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          )),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: ListView(
+        padding: const EdgeInsets.all(16.0),
+        child: Table(
+          border: TableBorder.all(color: Colors.black, width: 2.0),
+          columnWidths: {
+            0: FixedColumnWidth(170.0),
+            //  1: FlexColumnWidth(),
+          },
           children: [
-            infoTile("FCM Token", fcmToken),
-            infoTile("Device Model", deviceModel),
-            infoTile("Device Company name", deviceManufacturer),
-            infoTile("Device Type", deviceType),
-            infoTile("App Version Name", appVersionName),
-            infoTile("App Version Code", appVersionCode),
-            infoTile("Package Name", packageName),
+            tableRow("FCM Token", fcmToken),
+            tableRow("Device Model", deviceModel),
+            tableRow("Device Company Name", deviceManufacturer),
+            tableRow("Device Type", deviceType),
+            tableRow("App Version Name", appVersionName),
+            tableRow("App Version Code", appVersionCode),
+            tableRow("Package Name", packageName),
           ],
         ),
       ),
     );
   }
 
-  Widget infoTile(String title, String? value) {
-    return ListTile(
-      title: Text(title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-      subtitle: Text(
-        value ?? "Fetching...",
-        style: TextStyle(fontSize: 12),
-      ),
+  /// Common table row
+  TableRow tableRow(String title, String? value) {
+    return TableRow(
+      decoration: BoxDecoration(color: Colors.grey[200]),
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CommonTextWidget(
+              text: title, fontWeight: FontWeight.bold, fontSize: 14),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CommonTextWidget(text: value ?? "Fetching...", fontSize: 12),
+        ),
+      ],
     );
   }
 }
