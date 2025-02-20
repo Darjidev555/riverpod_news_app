@@ -127,25 +127,32 @@ class Newstile extends ConsumerWidget {
                                       ),
                                       GestureDetector(
                                         onTap: () {
+                                          final uniqueKey =
+                                              "${newsForYouState.newsForYouList[index].title}-$index";
+
                                           ref
                                               .read(likedNewsProvider.notifier)
-                                              .toggleLike(newsForYouState
-                                                      .newsForYouList[index]
-                                                      .title ??
-                                                  "");
+                                              .toggleLike(uniqueKey);
                                         },
-                                        child: Icon(
-                                          likedNews.contains(newsForYouState
-                                                  .newsForYouList[index].title)
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: likedNews.contains(
-                                                  newsForYouState
-                                                      .newsForYouList[index]
-                                                      .title)
-                                              ? Colors.red
-                                              : Colors.white,
-                                          size: 30,
+                                        child: Consumer(
+                                          builder: (context, ref, child) {
+                                            final likedNews =
+                                                ref.watch(likedNewsProvider);
+                                            final uniqueKey =
+                                                "${newsForYouState.newsForYouList[index].title}-$index";
+                                            final isLiked = likedNews.contains(
+                                                uniqueKey); // Check using unique key
+
+                                            return Icon(
+                                              isLiked
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color: isLiked
+                                                  ? Colors.red
+                                                  : Colors.white,
+                                              size: 30,
+                                            );
+                                          },
                                         ),
                                       ),
                                     ],

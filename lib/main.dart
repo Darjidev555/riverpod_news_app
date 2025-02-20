@@ -1,4 +1,5 @@
 import 'package:devwidget/core/feature/auth/view/login_screen.dart';
+import 'package:devwidget/core/feature/notification/notification_service.dart';
 import 'package:devwidget/navigation/BottomNavScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sizer/sizer.dart';
+
+import 'core/feature/notification/firebase_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,9 @@ void main() async {
   }).catchError((error) {
     print("Firebase initialization failed: $error");
   });
+  await NotificationService.init();
+  await NotificationService.requestPermission();
+  await FirebaseService.initialize();
   runApp(const ProviderScope(child: MyApp()));
 }
 

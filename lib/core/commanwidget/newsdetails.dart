@@ -11,8 +11,7 @@ class NewsDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the state from the news provider
-    final newsState = ref.watch(newsProvider);
+    ref.watch(newsProvider);
 
     return Scaffold(
       backgroundColor: Colors.black54,
@@ -53,7 +52,8 @@ class NewsDetails extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Image.network(
-                    newsModel.urlToImage ?? "https://via.placeholder.com/150",
+                    newsModel.urlToImage ??
+                        "https://www.hindustantimes.com/ht-img/img/2024/10/07/550x309/Prime-Minister-Narendra-Modi-and-Maldives-Presiden_1728317636195_1728317752751.jpg",
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(
@@ -86,9 +86,8 @@ class NewsDetails extends ConsumerWidget {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 20),
-                // Display author dynamically from newsModel
+
                 Row(
                   children: [
                     CircleAvatar(

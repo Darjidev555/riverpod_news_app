@@ -1,3 +1,4 @@
+import 'package:devwidget/core/constants/const.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../model/newsmodel.dart';
 import '../../../network/network_services.dart';
@@ -43,11 +44,8 @@ class NewsForYouNotifier extends StateNotifier<NewsForYouState> {
 
   /// Fetch news for you
   Future<void> getNewsForYou({bool loadMore = false}) async {
-    String url =
-        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=feac6772bf7143e1976d85e79fb8633a";
-
     try {
-      var response = await _networkAPICall.get(url, isAddBaseUrl: true);
+      var response = await _networkAPICall.get(newsForYou, isAddBaseUrl: true);
       var articles = response['articles'];
       List<NewsModel> newsList =
           articles.map<NewsModel>((news) => NewsModel.fromJson(news)).toList();

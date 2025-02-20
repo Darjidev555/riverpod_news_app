@@ -1,3 +1,4 @@
+import 'package:devwidget/core/constants/const.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../model/newsmodel.dart';
 import '../../../network/network_services.dart';
@@ -38,11 +39,8 @@ class HottestNewsNotifier extends StateNotifier<HottestNewsState> {
 
   /// Fetch hottest news
   Future<void> getHottestNews({bool loadMore = false}) async {
-    String url =
-        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=feac6772bf7143e1976d85e79fb8633a";
-
     try {
-      var response = await _networkAPICall.get(url, isAddBaseUrl: true);
+      var response = await _networkAPICall.get(hottestNews, isAddBaseUrl: true);
       var articles = response['articles'];
       List<NewsModel> newsList =
           articles.map<NewsModel>((news) => NewsModel.fromJson(news)).toList();
