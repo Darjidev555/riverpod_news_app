@@ -8,9 +8,11 @@ class ChatService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  static final FirebaseMessaging _firebaseMessaging =
+      FirebaseMessaging.instance;
 
-  // Initialize local notifications
-  static Future<void> initializeNotifications() async {
+  static Future<void> initializeNotifications(
+      Function(String) onNotificationTap) async {
     const AndroidInitializationSettings androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -20,10 +22,18 @@ class ChatService {
     const InitializationSettings settings =
         InitializationSettings(android: androidSettings, iOS: iosSettings);
 
-    await _localNotificationsPlugin.initialize(settings);
+    await _localNotificationsPlugin.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        if (response.payload != null && response.payload!.isNotEmpty) {
+          onNotificationTap(response.payload!);
+        }
+      },
+    );
+
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  // Listen for messages and show notifications in foreground
   void listenForMessages(String chatId, String currentUserId) {
     _firestore
         .collection('chats')
@@ -36,7 +46,6 @@ class ChatService {
         var message = snapshot.docs.last;
         String senderId = message['senderId'];
 
-        // Show notification only if the message is not from the current user
         if (senderId != currentUserId) {
           _showLocalNotification(message['senderName'], message['text']);
         }
@@ -53,7 +62,6 @@ class ChatService {
         .snapshots();
   }
 
-  // Send message and store in Firestore
   Future<void> sendMessage(
       String chatId, String senderId, String message) async {
     String senderName = _auth.currentUser?.displayName ?? "Unknown";
@@ -68,9 +76,28 @@ class ChatService {
       'senderName': senderName,
       'timestamp': FieldValue.serverTimestamp(),
     });
+
+    String? token = await _firebaseMessaging.getToken();
+    if (token != null) {
+      await _sendPushNotification(token, senderName, message);
+    }
   }
 
-  // Show local notification
+  static Future<void> _sendPushNotification(
+      String token, String senderName, String message) async {
+    // Here you need to integrate with your backend server to send the FCM notification
+    print("Sending push notification to token: $token");
+  }
+
+  static Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    print("Background Message: ${message.notification?.title}");
+    _showLocalNotification(
+      message.notification?.title ?? "New Message",
+      message.notification?.body ?? "You have a new message",
+    );
+  }
+
   static Future<void> _showLocalNotification(String title, String body) async {
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
