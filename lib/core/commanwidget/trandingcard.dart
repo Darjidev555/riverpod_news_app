@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 import '../constants/const.dart';
 import '../feature/home/viewmodel/hottestNews_provider.dart';
-import '../feature/home/viewmodel/likedNews_provider.dart';
+import '../feature/home/viewmodel/likedNews_provider.dart'; // Import your theme provider
 import 'commantextwidget.dart';
 import 'newsdetails.dart';
 
@@ -14,6 +14,7 @@ class Trandingcard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final likedNews = ref.watch(likedNewsProvider);
     final hottestNewsState = ref.watch(hottestNewsProvider);
+    final theme = Theme.of(context);
 
     if (hottestNewsState.hottestNewsList.isEmpty &&
         !hottestNewsState.isLoading) {
@@ -22,13 +23,13 @@ class Trandingcard extends ConsumerWidget {
 
     return Column(
       children: [
-        const Row(
+        Row(
           children: [
             CommonTextWidget(
               text: "Hottest News",
-              fontSize: 15,
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
-              color: Colors.blueAccent,
+              color: theme.hintColor, // Use theme color
             ),
           ],
         ),
@@ -72,12 +73,12 @@ class Trandingcard extends ConsumerWidget {
                             decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.blueAccent.withOpacity(0.1),
+                                    color: theme.primaryColor.withOpacity(0.1),
                                     blurRadius: 8,
                                     spreadRadius: 2,
                                   )
                                 ],
-                                color: Colors.black87,
+                                color: theme.scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(4.w)),
                             child: Column(
                               children: [
@@ -89,7 +90,9 @@ class Trandingcard extends ConsumerWidget {
                                     width: 70.w,
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: Colors.blue, width: 1.0),
+                                            color: theme.hintColor,
+                                            // Theme color
+                                            width: 1.0),
                                         borderRadius:
                                             BorderRadius.circular(4.w)),
                                     child: ClipRRect(
@@ -110,13 +113,14 @@ class Trandingcard extends ConsumerWidget {
                                   children: [
                                     Text("Trending No 1",
                                         style: TextStyle(
-                                            color: Colors.white,
+                                            color: theme
+                                                .textTheme.bodyMedium!.color,
                                             fontSize: 14.sp)),
                                     Text(
                                       formatDate(hottestNewsState
                                           .hottestNewsList[index].publishedAt),
                                       style: TextStyle(
-                                          color: Colors.blueAccent,
+                                          color: theme.hintColor,
                                           fontSize: 14.sp),
                                     ),
                                   ],
@@ -129,7 +133,9 @@ class Trandingcard extends ConsumerWidget {
                                               .hottestNewsList[index].title ??
                                           "No Title",
                                       style: TextStyle(
-                                          fontSize: 16.sp, color: Colors.white),
+                                          fontSize: 16.sp,
+                                          color: theme
+                                              .textTheme.bodyMedium!.color),
                                       maxLines: 2,
                                     ))
                                   ],
@@ -141,7 +147,7 @@ class Trandingcard extends ConsumerWidget {
                                   children: [
                                     CircleAvatar(
                                       radius: 3.w,
-                                      backgroundColor: Colors.blueAccent,
+                                      backgroundColor: theme.hintColor,
                                       child: Center(
                                         child: Text(
                                           hottestNewsState
@@ -153,7 +159,8 @@ class Trandingcard extends ConsumerWidget {
                                                   .author![0]
                                               : "?",
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: theme
+                                                  .textTheme.bodyMedium!.color,
                                               fontSize: 10),
                                         ),
                                       ),
@@ -165,7 +172,8 @@ class Trandingcard extends ConsumerWidget {
                                                 .author ??
                                             "Unknown Author",
                                         style: TextStyle(
-                                            color: Colors.white,
+                                            color: theme
+                                                .textTheme.bodyMedium!.color,
                                             fontSize: 15.sp),
                                         maxLines: 1,
                                       ),
@@ -203,7 +211,8 @@ class Trandingcard extends ConsumerWidget {
                                               key: ValueKey(isLiked),
                                               color: isLiked
                                                   ? Colors.red
-                                                  : Colors.white,
+                                                  : theme.textTheme.bodyMedium!
+                                                      .color,
                                               size: 4.h,
                                             ),
                                           );

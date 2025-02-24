@@ -1,4 +1,5 @@
 import 'package:devwidget/core/feature/artical/view/artical_screen.dart';
+import 'package:devwidget/core/feature/theme/themeprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/feature/settings/view/setting_screen.dart';
@@ -10,6 +11,7 @@ class BottomNavScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(bottomNavIndexProvider);
+    final theme = Theme.of(context);
 
     return Scaffold(
       backgroundColor: Colors.black87,
@@ -29,7 +31,7 @@ class BottomNavScreen extends ConsumerWidget {
           onTap: (index) {
             ref.read(bottomNavIndexProvider.notifier).state = index;
           },
-          selectedItemColor: Colors.blueAccent,
+          selectedItemColor: theme.hintColor,
           // Matching Newstile color
           unselectedItemColor: Colors.white,
           // White for contrast
@@ -61,7 +63,7 @@ class BottomNavScreen extends ConsumerWidget {
       case 1:
         return ArticalScreen();
       case 2:
-        return SettingScreen();
+        return ThemeSwitcherScreen();
       default:
         return Center(
             child:

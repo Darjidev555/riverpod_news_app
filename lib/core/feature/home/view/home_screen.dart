@@ -15,16 +15,17 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(hottestNewsProvider);
     ref.watch(newsForYouProvider);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white30,
+      backgroundColor: theme.highlightColor,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
         backgroundColor: Colors.black87,
-        title: const CommonTextWidget(
+        title: CommonTextWidget(
           text: "News App",
-          color: Colors.white,
+          color: theme.hintColor,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),

@@ -12,6 +12,7 @@ class Newstile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context); // Get current theme
     final likedNews = ref.watch(likedNewsProvider);
     final newsForYouState = ref.watch(newsForYouProvider);
 
@@ -20,16 +21,20 @@ class Newstile extends ConsumerWidget {
     }
 
     return newsForYouState.isLoading
-        ? Center(child: CircularProgressIndicator(color: Colors.blueAccent))
+        ? Center(
+            child: CircularProgressIndicator(
+              color: theme.hintColor, // Use theme hint color
+            ),
+          )
         : Column(
             children: [
               Row(
                 children: [
                   CommonTextWidget(
                     text: "News For You",
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
+                    color: theme.hintColor, // Use primary theme color
                   ),
                 ],
               ),
@@ -67,10 +72,11 @@ class Newstile extends ConsumerWidget {
                         height: 18.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.w),
-                          color: Colors.black87,
+                          color: theme.scaffoldBackgroundColor,
+                          // Use theme background
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.blueAccent.withOpacity(0.2),
+                              color: theme.hintColor.withOpacity(0.2),
                               blurRadius: 8,
                               spreadRadius: 2,
                             )
@@ -86,17 +92,19 @@ class Newstile extends ConsumerWidget {
                                 width: 13.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(3.w),
-                                  color: Colors.blueGrey,
+                                  color: theme.primaryColorDark,
+                                  // Use theme dark primary
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.blueAccent.withOpacity(0.3),
+                                      color: theme.hintColor.withOpacity(0.3),
                                       blurRadius: 8,
                                       spreadRadius: 2,
                                     )
                                   ],
                                   border: Border.all(
-                                    color: Colors.white, // Border color
-                                    width: 0.5, // Border width
+                                    color: theme.dividerColor,
+                                    // Use theme divider color
+                                    width: 0.5,
                                   ),
                                 ),
                                 child: ClipRRect(
@@ -120,7 +128,7 @@ class Newstile extends ConsumerWidget {
                                     children: [
                                       CircleAvatar(
                                         radius: 1.5.h,
-                                        backgroundColor: Colors.blueAccent,
+                                        backgroundColor: theme.hintColor,
                                         child: Center(
                                           child: Text(
                                             newsForYouState
@@ -131,9 +139,11 @@ class Newstile extends ConsumerWidget {
                                                     .newsForYouList[index]
                                                     .author![0]
                                                 : "?",
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10),
+                                            style: TextStyle(
+                                              color: theme
+                                                  .textTheme.bodyMedium?.color,
+                                              fontSize: 10,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -145,8 +155,8 @@ class Newstile extends ConsumerWidget {
                                               "Unknown Author",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: Colors.white,
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -161,8 +171,7 @@ class Newstile extends ConsumerWidget {
                                         "No Title",
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: Colors.white,
+                                    style: theme.textTheme.bodyLarge?.copyWith(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -176,8 +185,9 @@ class Newstile extends ConsumerWidget {
                                         formatDate(newsForYouState
                                             .newsForYouList[index].publishedAt),
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          color: Colors.blueAccent,
+                                        style:
+                                            theme.textTheme.bodySmall?.copyWith(
+                                          color: theme.hintColor,
                                           fontSize: 13.sp,
                                         ),
                                       ),
@@ -214,7 +224,7 @@ class Newstile extends ConsumerWidget {
                                                 key: ValueKey(isLiked),
                                                 color: isLiked
                                                     ? Colors.red
-                                                    : Colors.white,
+                                                    : theme.iconTheme.color,
                                                 size: 4.h,
                                               ),
                                             );

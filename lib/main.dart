@@ -11,6 +11,7 @@ import 'package:sizer/sizer.dart';
 import 'core/feature/chat/view/chat_Screen.dart';
 import 'core/feature/chat/viewmodel/chat_services.dart';
 import 'core/feature/notification/firebase_service.dart';
+import 'core/feature/theme/themeprovider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -48,20 +49,18 @@ void _navigateToChat(String chatId) {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
     return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: themeMode,
         home: AuthCheck(),
       );
     });
