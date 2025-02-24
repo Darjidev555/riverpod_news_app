@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/material.dart';
 
 class ChatService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -31,7 +32,22 @@ class ChatService {
       },
     );
 
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    // Foreground Notifications
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        _showLocalNotification(
+          message.notification!.title ?? "New Message",
+          message.notification!.body ?? "You have a new message",
+        );
+      }
+    });
+
+    // Handle notification taps when the app is in the background
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      onNotificationTap(message.data['chatId'] ?? '');
+    });
   }
 
   void listenForMessages(String chatId, String currentUserId) {
@@ -89,9 +105,8 @@ class ChatService {
     print("Sending push notification to token: $token");
   }
 
-  static Future<void> _firebaseMessagingBackgroundHandler(
+  static Future<void> firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
-    print("Background Message: ${message.notification?.title}");
     _showLocalNotification(
       message.notification?.title ?? "New Message",
       message.notification?.body ?? "You have a new message",

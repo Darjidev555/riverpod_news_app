@@ -15,6 +15,7 @@ class SettingScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.black54,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.black54,
         title: const CommonTextWidget(
@@ -114,8 +115,6 @@ class SettingScreen extends ConsumerWidget {
                             TextButton(
                               onPressed: () {
                                 ref.read(authProvider.notifier).logout(context);
-                                Navigator.pop(
-                                    context); // Close dialog after logout
                               },
                               child: const Text('OK'),
                             ),

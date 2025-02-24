@@ -26,9 +26,8 @@ class NotificationService {
     );
   }
 
-  /// ✅ Corrected requestPermission method
+  /// Corrected requestPermission method
   static Future<void> requestPermission() async {
-    // Android-specific permission (Only required for Android 13+)
     final androidImplementation =
         _notificationsPlugin.resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>();
@@ -37,7 +36,7 @@ class NotificationService {
       await androidImplementation.requestNotificationsPermission();
     }
 
-    // iOS-specific permission request
+    /// iOS-specific permission request
     final iosImplementation =
         _notificationsPlugin.resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>();

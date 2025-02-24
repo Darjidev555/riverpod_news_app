@@ -50,17 +50,31 @@ class NewsDetails extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: Colors.red,
                     borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blueAccent.withOpacity(0.3),
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                      )
+                    ],
+                    border: Border.all(
+                      color: Colors.white, // Border color
+                      width: 0.5, // Border width
+                    ),
                   ),
-                  child: Image.network(
-                    newsModel.urlToImage ??
-                        "https://www.hindustantimes.com/ht-img/img/2024/10/07/550x309/Prime-Minister-Narendra-Modi-and-Maldives-Presiden_1728317636195_1728317752751.jpg",
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Center(
-                        child: Icon(Icons.broken_image,
-                            color: Colors.white, size: 50),
-                      );
-                    },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      newsModel.urlToImage ??
+                          "https://www.hindustantimes.com/ht-img/img/2024/10/07/550x309/Prime-Minister-Narendra-Modi-and-Maldives-Presiden_1728317636195_1728317752751.jpg",
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(Icons.broken_image,
+                              color: Colors.white, size: 50),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -82,7 +96,7 @@ class NewsDetails extends ConsumerWidget {
                           ? DateFormat('yyyy-MM-dd')
                               .format(newsModel.publishedAt!)
                           : "Unknown Date", // Use your preferred format
-                      style: const TextStyle(color: Colors.orange),
+                      style: const TextStyle(color: Colors.blueAccent),
                     ),
                   ],
                 ),
