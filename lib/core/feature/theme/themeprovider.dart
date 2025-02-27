@@ -1,3 +1,4 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:devwidget/core/commanwidget/commantextwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,20 +53,22 @@ class AppThemes {
     primaryColor: Colors.green,
     hintColor: Colors.blueAccent,
     scaffoldBackgroundColor: Colors.green,
-    textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.black)),
+    textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.red)),
   );
 }
 
 class ThemeSwitcherScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final Duration initialDelay = Duration(seconds: 1);
     final themeNotifier = ref.read(themeProvider.notifier);
     final currentTheme = ref.watch(themeProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.highlightColor,
+      backgroundColor: theme.primaryColor,
       appBar: AppBar(
+        backgroundColor: Colors.black54,
         title: CommonTextWidget(
           text: 'Theme Switcher',
           color: theme.hintColor,
@@ -75,25 +78,44 @@ class ThemeSwitcherScreen extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () => themeNotifier.changeTheme(AppThemes.darkTheme),
-              child: const Text('Dark Theme'),
+            DelayedDisplay(
+              delay: initialDelay,
+              child: ElevatedButton(
+                onPressed: () => themeNotifier.changeTheme(AppThemes.darkTheme),
+                child: const Text('Dark Theme'),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () => themeNotifier.changeTheme(AppThemes.lightTheme),
-              child: const Text('Light Theme'),
+            DelayedDisplay(
+              delay: Duration(seconds: initialDelay.inSeconds + 1),
+              child: ElevatedButton(
+                onPressed: () =>
+                    themeNotifier.changeTheme(AppThemes.lightTheme),
+                child: const Text('Light Theme'),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () => themeNotifier.changeTheme(AppThemes.redTheme),
-              child: const Text('Red Theme'),
+            DelayedDisplay(
+              delay: Duration(seconds: initialDelay.inSeconds + 2),
+              child: ElevatedButton(
+                onPressed: () => themeNotifier.changeTheme(AppThemes.redTheme),
+                child: const Text('Red Theme'),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () => themeNotifier.changeTheme(AppThemes.yellowTheme),
-              child: const Text('Yellow Theme'),
+            DelayedDisplay(
+              delay: Duration(seconds: initialDelay.inSeconds + 3),
+              child: ElevatedButton(
+                onPressed: () =>
+                    themeNotifier.changeTheme(AppThemes.yellowTheme),
+                child: const Text('Yellow Theme'),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () => themeNotifier.changeTheme(AppThemes.greenTheme),
-              child: const Text('green Theme'),
+            DelayedDisplay(
+              slidingCurve: Curves.easeInOut,
+              delay: Duration(seconds: initialDelay.inSeconds + 4),
+              child: ElevatedButton(
+                onPressed: () =>
+                    themeNotifier.changeTheme(AppThemes.greenTheme),
+                child: const Text('green Theme'),
+              ),
             ),
           ],
         ),

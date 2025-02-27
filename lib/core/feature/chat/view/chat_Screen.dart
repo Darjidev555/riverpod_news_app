@@ -80,8 +80,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        title: Text("Chat", style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text("Chat", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.teal,
       ),
       body: Column(
@@ -98,7 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
       stream: _chatService.getMessages(widget.chatId),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(child: Text("No messages yet"));
+          return const Center(child: Text("No messages yet"));
         }
 
         var messages = snapshot.data!.docs;
@@ -125,31 +125,34 @@ class _ChatScreenState extends State<ChatScreen> {
             return Align(
               alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: Column(
                   crossAxisAlignment:
                       isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                   children: [
                     Text(
                       data['senderName'] ?? "Unknown",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 2),
+                    const SizedBox(height: 2),
 
                     // Message Bubble
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 14),
                       decoration: BoxDecoration(
                         color: isMe ? Colors.teal[400] : Colors.grey[300],
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                          bottomLeft:
-                              isMe ? Radius.circular(15) : Radius.circular(0),
-                          bottomRight:
-                              isMe ? Radius.circular(0) : Radius.circular(15),
+                          topLeft: const Radius.circular(15),
+                          topRight: const Radius.circular(15),
+                          bottomLeft: isMe
+                              ? const Radius.circular(15)
+                              : const Radius.circular(0),
+                          bottomRight: isMe
+                              ? const Radius.circular(0)
+                              : const Radius.circular(15),
                         ),
                       ),
                       child: Text(
@@ -163,7 +166,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                     /// Timestamp Display
                     Padding(
-                      padding: EdgeInsets.only(top: 3, left: 5, right: 5),
+                      padding: const EdgeInsets.only(top: 3, left: 5, right: 5),
                       child: Text(
                         formattedTime,
                         style: TextStyle(fontSize: 12, color: Colors.grey[600]),
@@ -181,7 +184,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildMessageInput() {
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
           Expanded(
@@ -199,11 +202,11 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           CircleAvatar(
             backgroundColor: Colors.teal,
             child: IconButton(
-              icon: Icon(Icons.send, color: Colors.white),
+              icon: const Icon(Icons.send, color: Colors.white),
               onPressed: _sendMessage,
             ),
           ),
@@ -234,7 +237,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
     }

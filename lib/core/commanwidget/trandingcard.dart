@@ -27,7 +27,7 @@ class Trandingcard extends ConsumerWidget {
           children: [
             CommonTextWidget(
               text: "Hottest News",
-              fontSize: 16.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.bold,
               color: theme.hintColor, // Use theme color
             ),

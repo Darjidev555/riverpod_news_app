@@ -1,8 +1,9 @@
 import 'package:devwidget/core/feature/artical/view/artical_screen.dart';
+import 'package:devwidget/core/feature/filter.dart/filterListScreen.dart';
+import 'package:devwidget/core/feature/filter.dart/view.dart';
 import 'package:devwidget/core/feature/theme/themeprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../core/feature/settings/view/setting_screen.dart';
 import '../core/feature/home/view/home_screen.dart';
 
 final bottomNavIndexProvider = StateProvider<int>((ref) => 0);
@@ -31,7 +32,7 @@ class BottomNavScreen extends ConsumerWidget {
           onTap: (index) {
             ref.read(bottomNavIndexProvider.notifier).state = index;
           },
-          selectedItemColor: theme.hintColor,
+          selectedItemColor: Colors.blueAccent,
           // Matching Newstile color
           unselectedItemColor: Colors.white,
           // White for contrast
@@ -61,7 +62,9 @@ class BottomNavScreen extends ConsumerWidget {
       case 0:
         return HomeScreen();
       case 1:
-        return ArticalScreen();
+        return Filterlistscreen(
+          isFilterApplied: true,
+        );
       case 2:
         return ThemeSwitcherScreen();
       default:

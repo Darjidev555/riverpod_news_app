@@ -56,9 +56,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Container(
                       height: 20.h,
                       width: 20.w,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: const AssetImage(
+                          image: AssetImage(
                               "assets/images/logo-no-background 1@2x.png"),
                         ),
                       ),
@@ -150,7 +150,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: const Color(0xffBB84E8),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "log in",
                         style: TextStyle(
@@ -164,13 +164,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 SizedBox(height: 5.h),
 
                 // Or Sign in with Text
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Or Sign in with",
                       style: TextStyle(
-                        color: const Color(0xff471AA0),
+                        color: Color(0xff471AA0),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -187,7 +187,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       Container(
                         height: 5.h,
                         width: 5.h,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/googlelogo.png"),
                           ),
@@ -213,13 +213,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignupScreen()),
+                              builder: (context) => const SignupScreen()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                          color: const Color(0xff471AA0),
+                          color: Color(0xff471AA0),
                           fontWeight: FontWeight.bold,
                         ),
                       ),

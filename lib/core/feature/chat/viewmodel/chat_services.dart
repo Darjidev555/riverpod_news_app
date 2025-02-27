@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter/material.dart';
 
 class ChatService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -101,7 +100,7 @@ class ChatService {
 
   static Future<void> _sendPushNotification(
       String token, String senderName, String message) async {
-    // Here you need to integrate with your backend server to send the FCM notification
+    /// Here you need to integrate with your backend server to send the FCM notification
     print("Sending push notification to token: $token");
   }
 

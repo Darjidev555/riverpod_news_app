@@ -11,17 +11,18 @@ class SettingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Fetching the current user's state using Riverpod
     final authState = ref.watch(authProvider);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.black54,
+      backgroundColor: theme.highlightColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.black54,
-        title: const CommonTextWidget(
+        title: CommonTextWidget(
           text: "Profile",
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: theme.hintColor,
         ),
       ),
       body: SingleChildScrollView(
