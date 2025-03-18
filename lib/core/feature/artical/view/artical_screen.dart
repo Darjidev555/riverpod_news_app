@@ -13,6 +13,7 @@ class ArticalScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final newsForYouState = ref.watch(newsForYouProvider);
 
     String formatDate(DateTime? date) {
@@ -26,12 +27,12 @@ class ArticalScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.black54,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           "Artical ",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: theme.hintColor, fontWeight: FontWeight.bold),
         ),
       ),
-      backgroundColor: Colors.black54,
+      backgroundColor: theme.highlightColor,
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(10.0),

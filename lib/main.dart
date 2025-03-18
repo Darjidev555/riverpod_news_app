@@ -1,4 +1,6 @@
+import 'package:app_links/app_links.dart';
 import 'package:devwidget/core/feature/auth/view/login_screen.dart';
+import 'package:devwidget/core/feature/notification/notification_service.dart';
 import 'package:devwidget/navigation/BottomNavScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sizer/sizer.dart';
+import 'core/feature/chat/view/chat_Screen.dart';
+import 'core/feature/chat/viewmodel/chat_services.dart';
+import 'core/feature/notification/firebase_service.dart';
+import 'core/feature/theme/themeprovider.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,22 +31,36 @@ void main() async {
   }).catchError((error) {
     print("Firebase initialization failed: $error");
   });
+  await NotificationService.init();
+  await NotificationService.requestPermission();
+  await FirebaseService.initialize();
+
+  await ChatService.initializeNotifications((String chatId) {
+    _navigateToChat(chatId);
+  });
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+void _navigateToChat(String chatId) {
+  navigatorKey.currentState?.push(
+    MaterialPageRoute(
+      builder: (context) => ChatScreen(chatId: chatId),
+    ),
+  );
+}
+
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
     return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: themeMode,
         home: AuthCheck(),
       );
     });
@@ -46,8 +68,23 @@ class MyApp extends StatelessWidget {
 }
 
 /// AuthCheck widget to check the login status
-class AuthCheck extends StatelessWidget {
+class AuthCheck extends StatefulWidget {
   const AuthCheck({super.key});
+
+  @override
+  State<AuthCheck> createState() => _AuthCheckState();
+}
+
+class _AuthCheckState extends State<AuthCheck> {
+  final appLinks = AppLinks();
+
+  @override
+  void initState() {
+    final sub = appLinks.uriLinkStream.listen((uri) {
+      print("===>${uri}");
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

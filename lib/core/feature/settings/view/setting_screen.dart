@@ -11,16 +11,18 @@ class SettingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Fetching the current user's state using Riverpod
     final authState = ref.watch(authProvider);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.black54,
+      backgroundColor: theme.highlightColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.black54,
-        title: const CommonTextWidget(
+        title: CommonTextWidget(
           text: "Profile",
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: theme.hintColor,
         ),
       ),
       body: SingleChildScrollView(
@@ -33,7 +35,7 @@ class SettingScreen extends ConsumerWidget {
                 backgroundImage: NetworkImage(
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlOLBRK-3wEFFeCojWlHou4nooggl5iI2PJQ&s",
                 ),
-                radius: 80,
+                radius: 60,
               ),
               // Profile Picture
               const SizedBox(height: 20),
@@ -114,8 +116,6 @@ class SettingScreen extends ConsumerWidget {
                             TextButton(
                               onPressed: () {
                                 ref.read(authProvider.notifier).logout(context);
-                                Navigator.pop(
-                                    context); // Close dialog after logout
                               },
                               child: const Text('OK'),
                             ),

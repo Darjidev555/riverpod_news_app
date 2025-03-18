@@ -1,10 +1,11 @@
 import 'package:devwidget/core/commanwidget/commantextwidget.dart';
 import 'package:devwidget/core/commanwidget/newstile.dart';
 import 'package:devwidget/core/commanwidget/trandingcard.dart';
+import 'package:devwidget/core/feature/chat/view/chat_Screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 import '../viewmodel/hottestnews_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../viewmodel/newsforyou_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -14,27 +15,46 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(hottestNewsProvider);
     ref.watch(newsForYouProvider);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.black54,
+      backgroundColor: theme.highlightColor,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
-        backgroundColor: Colors.black54,
-        title: const CommonTextWidget(
+        backgroundColor: Colors.black87,
+        title: CommonTextWidget(
           text: "News App",
-          color: Colors.white,
+          color: theme.hintColor,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(10.0),
-        children: [
-          const Trandingcard(),
-          SizedBox(height: 2.h),
-          const Newstile(),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatScreen(chatId: "chatId1")));
+              },
+              icon: Icon(Icons.chat))
         ],
+      ),
+      body: AnimatedSwitcher(
+        duration: Duration(milliseconds: 900),
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+        child: ListView(
+          key: ValueKey("news_list"),
+          padding: const EdgeInsets.all(10.0),
+          children: [
+            const Trandingcard(),
+            SizedBox(height: 2.h),
+            const Newstile(),
+          ],
+        ),
       ),
     );
   }

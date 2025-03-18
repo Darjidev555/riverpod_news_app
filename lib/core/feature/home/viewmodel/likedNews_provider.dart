@@ -16,14 +16,14 @@ class LikedNewsNotifier extends StateNotifier<Set<String>> {
     state = likedNews.toSet();
   }
 
-  Future<void> toggleLike(String news) async {
+  Future<void> toggleLike(String uniqueKey) async {
     final prefs = await SharedPreferences.getInstance();
     final updatedLikes = Set<String>.from(state);
 
-    if (updatedLikes.contains(news)) {
-      updatedLikes.remove(news);
+    if (updatedLikes.contains(uniqueKey)) {
+      updatedLikes.remove(uniqueKey);
     } else {
-      updatedLikes.add(news);
+      updatedLikes.add(uniqueKey);
     }
 
     state = updatedLikes;

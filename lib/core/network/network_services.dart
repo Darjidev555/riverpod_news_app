@@ -83,7 +83,7 @@ class NetworkAPICall {
 
   _checkResponse(Response response) {
     switch (response.statusCode) {
-       case 201 || 200:
+      case 201 || 200:
         try {
           var json = response.data;
           if (json is List) return json;

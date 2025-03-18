@@ -137,13 +137,17 @@ class AuthController extends StateNotifier<AuthState> {
 
     ///Store email and name in SharedPreference
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     await prefs.remove('email');
     await prefs.remove('name');
-
-    state = AuthState(user: null);
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
+
+/*state = AuthState(user: null);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  }*/
 }
 
 /// Riverpod Provider
